@@ -103,7 +103,7 @@
                 });
             },
             login() {
-
+             /*   this.$router.push("/dashboard"); //跳转页面*/
                if (this.form.seccode.toUpperCase() != this.checkCode.toUpperCase()) {
                     this.$message({
                         message: "验证码错误",

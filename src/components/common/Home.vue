@@ -1,19 +1,21 @@
 <template>
     <div class="wrapper">
         <v-head></v-head>
-        <v-sidebar v-show="sidebarShow"></v-sidebar>
+        <v-sidebar></v-sidebar>
+       <!-- <v-sidebar v-show="sidebarShow"></v-sidebar>-->
         <div class="content-box" :class="{'content-collapse':collapse}">
             <v-tags></v-tags>
             <div class="content">
                 <transition name="move" mode="out-in">
                     <keep-alive :include="tagsList">
-                        <div v-show="sidebarShow">
+                      <!--  <div v-show="sidebarShow">-->
+                        <div>
                             <router-view></router-view>
                         </div>
                     </keep-alive>
                 </transition>
                 <el-backtop target=".content"></el-backtop>
-                <div v-show="license">
+                <div v-show="false">
                     <el-form ref="form" :model="form" class="ms-content">
                         <div class="ms-title">license:</div>
                         <el-form-item prop="license">
@@ -66,6 +68,7 @@ export default {
         return {
             sidebarShow: false,
             license:true,
+            license1:false,
             form: {
                 key: "",
                 license: "",
@@ -109,7 +112,9 @@ export default {
 
         },
         confire(){
-            checkLicense(this.form).then(res => {
+            this.sidebarShow=true
+            this.license =false;
+            /*checkLicense(this.form).then(res => {
                 if (res.success) {
                     this.$message.success("license和key合法")
                     this.sidebarShow=true
@@ -120,7 +125,7 @@ export default {
                     this.license =true;
                 }
 
-            })
+            })*/
         }
 
     }

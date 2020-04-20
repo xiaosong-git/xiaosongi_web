@@ -106,6 +106,21 @@ Vue.use(Router);
                     path: '/personControl',
                     component: () => import(/* webpackChunkName: "403" */ '../components/page/PersonControl.vue'),
                     meta: { title: '通行人员管理' }
+                },
+                {   //通行方式配置
+                    path: '/groupSet',
+                    component: () => import(/* webpackChunkName: "403" */ '../components/page/GroupSet.vue'),
+                    meta: { title: '分组管理' }
+                },
+                {   //通行方式配置
+                    path: '/schoolSet',
+                    component: () => import(/* webpackChunkName: "403" */ '../components/page/SchoolSet.vue'),
+                    meta: { title: '名单管理' }
+                },
+                {   //通行方式配置
+                    path: '/reportSet',
+                    component: () => import(/* webpackChunkName: "403" */ '../components/page/ReportSet.vue'),
+                    meta: { title: '报表统计' }
                 }
 
             ]

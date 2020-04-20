@@ -143,8 +143,8 @@ a {
     border: 1px dashed #d9d9d9;
     border-radius: 6px;
     box-sizing: border-box;
-    width: 178px;
-    height: 200px;
+    width: auto;
+    height: auto;
     text-align: center;
     cursor: pointer;
     position: relative;

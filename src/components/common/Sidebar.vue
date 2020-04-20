@@ -94,7 +94,27 @@
                             },
 
                         ]
-                    }
+                    },
+                    {
+                        icon: 'el-icon-school',
+                        index: '3',
+                        title: '校园管理',
+                        subs: [
+                            {
+                                index: 'groupSet',
+                                title: '分组管理'
+                            },
+                            {
+                                index: 'schoolSet',
+                                title: '名单管理'
+                            },
+                            {
+                                index: 'reportSet',
+                                title: '报表统计'
+                            }
+                        ]
+
+                    },
                 ]
             };
         },

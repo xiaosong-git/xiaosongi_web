@@ -48,6 +48,8 @@
                                             </el-radio>
                                             <el-radio class="radio" :label="1" @change="viewUI()" border="">外接控制器
                                             </el-radio>
+                                            <el-radio class="radio" :label="2" @change="noController()" border="">无控制器
+                                            </el-radio>
                                         </el-radio-group>
                                     </el-form-item>
                                 </el-col>
@@ -66,7 +68,7 @@
                                 </el-col>
                                 <el-col :span="10">
                                     <el-form-item label="设备型号:" prop="deviceType">
-                                        <el-select v-model="formData.deviceType" placeholder="请选择" @change="typeConfire">
+                                        <el-select v-model="devType" placeholder="请选择" @change="typeConfire">
                                             <el-option
                                                     v-for="item in typeOptions"
                                                     :key="item.value"
@@ -88,7 +90,7 @@
                                     </el-form-item>
                                 </el-col>
                                 <el-col :span="10">
-                                    <el-form-item label="进出标识:" prop="FQ_turnover">
+                                    <el-form-item label="进出标识:" prop="FQ_turnover" v-show="noControlShow">
                                         <el-radio-group v-model="formData.FQ_turnover">
                                             <el-radio class="radio" :label="0">进</el-radio>
                                             <el-radio class="radio" :label="1">出</el-radio>
@@ -96,7 +98,7 @@
                                     </el-form-item>
                                 </el-col>
                                 <el-col :span="10">
-                                    <el-form-item label="使用状态:" prop="status">
+                                    <el-form-item label="使用状态:" prop="status" v-show="noControlShow">
                                         <el-radio-group v-model="formData.status">
                                             <el-radio class="radio" :label="0">使用</el-radio>
                                             <el-radio class="radio" :label="1">闲置</el-radio>
@@ -114,7 +116,7 @@
                                     </el-form-item>
                                 </el-col>
                                 <el-col :span="10">
-                                    <el-form-item label="对应楼层:" prop="contralFloor">
+                                    <el-form-item label="对应楼层:" prop="contralFloor" v-show="noControlShow">
                                         <el-input v-model="formData.contralFloor"/>
                                     </el-form-item>
                                 </el-col>
@@ -270,9 +272,11 @@
                     value: 'QRCODE',
                     label: '二维码设备'
                 }],
+                devType:'',
                 typeOptions:[],
                 userAdmin:true,//登录账号密码隐藏控件
                 controllerShow: true,//自有控制器隐藏控件
+                noControlShow:true,
                 dataList: [], // 当前页要展示的分页列表数据
                 formData: {}, // 表单数据
                 sels: [],//列表选中列
@@ -336,12 +340,10 @@
             // 添加
             handleAdd() {
                 // 进行表单校验
-                this.$refs['dataAddForm'].validate(valid => {
-                    if (valid) {
                         // 表单校验通过，发生ajax请求，将录入的数据提交到后台进行处理
-                        console.log(this.formData);
+                        window.console.log(this.formData);
                         this.listLoading = true;
-
+                        this.formData.deviceType = this.devType;
                         addDeviceSet(this.formData)
                             .then(res => {
                                 // 关闭新增窗口
@@ -365,24 +367,24 @@
                                 // 隐藏编辑窗口
                                 this.dialogFormVisible = false;
                             });
-                    } else {
-                        // 校验不通过
-                        this.$message.error('数据校验失败，请检查你的输入信息是否正确！');
-                        return false;
-                    }
                     this.typeOptions = [];
                     this.listLoading = false;
-                });
-
 
             },
             //根据控制器隐藏控件
             hideUI() {
                 this.controllerShow = false;
+                this.noControlShow = true;
             },
             //根据控制器显示控件
             viewUI() {
                 this.controllerShow = true;
+                this.noControlShow = true;
+            },
+            //单一设备，没有控制器
+            noController(){
+                this.noControlShow = false;
+                this.controllerShow = false;
             },
             // 分页查询
             findPage() {
@@ -456,6 +458,9 @@
                     }, {
                         value: 'DS-2CD8627FWD',
                         label: 'DS-2CD8627FWD'
+                    }, {
+                        value: 'KS-250',
+                        label: 'KS-250'
                     }];
 
                 }else if(this.formData.deviceMode=="二维码设备"){
@@ -467,7 +472,7 @@
                     this.typeOptions = [];
                 }
 
-                if(this.formData.deviceType == 'DH-ASI728'||this.formData.deviceType == 'DS-K5671'||this.formData.deviceType=='DS-2CD8627FWD'){
+                if(this.formData.deviceType == 'DH-ASI728'||this.formData.deviceType == 'DS-K5671'||this.formData.deviceType=='DS-2CD8627FWD'||this.formData.deviceType == 'KS-250'){
                     this.userAdmin =true;
                 }else{
                     this.userAdmin =false;
@@ -535,6 +540,7 @@
                         })
                 })
             },
+
             typeSelect(itemValue){
 
                 if(itemValue =='FACE'){
@@ -550,6 +556,9 @@
                     }, {
                         value: 'DS-2CD8627FWD',
                         label: 'DS-2CD8627FWD'
+                    }, {
+                        value: 'KS-250',
+                        label: 'KS-250'
                     }];
                     this.formData.deviceType =""
                 }else if(itemValue =='QRCODE'){
@@ -560,14 +569,17 @@
                     this.formData.deviceType =""
                 }
             },
-            typeConfire(itemVaule){
 
-                if(itemVaule == 'DH-ASI728'||itemVaule == 'DS-K5671'||itemVaule=='DS-2CD8627FWD'){
+            typeConfire(itemVaule){
+                window.console.log(itemVaule)
+                this.formData.deviceType = itemVaule;
+                if(itemVaule == 'DH-ASI728'||itemVaule == 'DS-K5671'||itemVaule=='DS-2CD8627FWD'||itemVaule=='KS-250'){
                     this.userAdmin =true;
                 }else{
                     this.userAdmin =false;
                 }
             },
+
             findByTpye(){
                 var para = {
                     "deviceMode":this.pagination.queryString,
@@ -587,6 +599,7 @@
                 })
 
             }
+
         }
     };
 </script>

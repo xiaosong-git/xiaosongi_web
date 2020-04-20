@@ -134,6 +134,14 @@ export const selectDeviceSet = query => {  //请求的接口放置位置
         params: query,
     });
 };
+//查询旷世设备
+export const findKS = query => {  //请求的接口放置位置
+    return request({
+        url: '/device/findKS',  //接口请求的url
+        method: 'post',
+        params: query,
+    });
+};
 //根据设备类型查询设备
 export const findByMode = query => {  //请求的接口放置位置
     return request({
@@ -273,5 +281,142 @@ export const findByName = query => {  //请求的接口放置位置
         url: '/person/findByName',  //接口请求的url
         method: 'post',
         params: query,
+    });
+};
+/**
+ *
+ *  校园管理
+ * @param query
+ */
+//查询所有分组
+export const findGroup = query => {  //请求的接口放置位置
+    return request({
+        url: '/group',  //接口请求的url
+        method: 'post',
+        params: query,
+    });
+};
+//新增分组
+export const addGroup = query => {  //请求的接口放置位置
+    return request({
+        url: '/group/save',  //接口请求的url
+        method: 'post',
+        params: query,
+    });
+};
+//修改分组
+export const editGroup = query => {  //请求的接口放置位置
+    return request({
+        url: '/group/update',  //接口请求的url
+        method: 'post',
+        params: query,
+    });
+};
+//删除单条分组
+export const delGroup = query => {  //请求的接口放置位置
+    return request({
+        url: '/group/delete',  //接口请求的url
+        method: 'post',
+        params: query,
+    });
+};
+//批量删除分组
+export const delBatchGroup = query => {  //请求的接口放置位置
+    return request({
+        url: '/group/batchDel',  //接口请求的url
+        method: 'post',
+        params: query,
+    });
+};
+
+//查询所有名单
+export const findPer = query => {  //请求的接口放置位置
+    return request({
+        url: '/per',  //接口请求的url
+        method: 'post',
+        params: query,
+    });
+};
+//新增名单
+export const addPer = query => {  //请求的接口放置位置
+    return request({
+        url: '/per/save',  //接口请求的url
+        method: 'post',
+        params: query,
+    });
+};
+//修改名单
+export const editPer = query => {  //请求的接口放置位置
+    return request({
+        url: '/per/update',  //接口请求的url
+        method: 'post',
+        params: query,
+    });
+};
+//删除名单
+export const delPer = query => {  //请求的接口放置位置
+    return request({
+        url: '/per/delete',  //接口请求的url
+        method: 'post',
+        params: query,
+    });
+};
+//批量删除名单
+export const delBatchPer = query => {  //请求的接口放置位置
+    return request({
+        url: '/per/batchDel',  //接口请求的url
+        method: 'post',
+        params: query,
+    });
+};
+//查询人所在组别
+export const findPerByGroup = query => {  //请求的接口放置位置
+    return request({
+        url: '/per/findGroupName',  //接口请求的url
+        method: 'post',
+        params: query,
+    });
+};
+//人员信息导入（excel）
+export const importPerExcel = query => {  //请求的接口放置位置
+    return request({
+        url: '/per/batchImport',  //接口请求的url
+        method: 'post',
+        params: query,
+    });
+};
+//人员查找
+export const findPerByName = query => {  //请求的接口放置位置
+    return request({
+        url: '/per/dim',  //接口请求的url
+        method: 'post',
+        params: query,
+    });
+};
+//报表下载
+export const download = query => {  //请求的接口放置位置
+    return request({
+        url: '/statement',  //接口请求的url
+        method: 'post',
+        params: query,
+        responseType: 'blob'
+    });
+};
+//报表下载
+export const findAllRecord = query => {  //请求的接口放置位置
+    return request({
+        url: '/statement/findAll',  //接口请求的url
+        method: 'post',
+        params: query,
+
+    });
+};
+//报表查找某人
+export const findRecordByName = query => {  //请求的接口放置位置
+    return request({
+        url: '/statement/bim',  //接口请求的url
+        method: 'post',
+        params: query,
+
     });
 };

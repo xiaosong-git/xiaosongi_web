@@ -3,11 +3,11 @@
     <div class="app">
         <div class="content-header">
             <div class="filter-container">
-                <el-input class="filter-item" placeholder="用户姓名" style="width: 200px;"
+                <el-input class="filter-item" placeholder="分组名称" style="width: 200px;"
                           v-model="pagination.queryString"/>
                 <el-button @click="findByName()" class="search">查询</el-button>
-                <el-button @click="handleCreate()" class="add" >新增</el-button>
-                <el-button :disabled="this.sels.length===0" @click="delMoreUser()" class="del">批量删除
+                <el-button @click="handleCreate()" class="add">新增</el-button>
+                <el-button :disabled="this.sels.length===0" @click="delMoreGroup()" class="del">批量删除
                 </el-button>
             </div>
         </div>
@@ -18,21 +18,18 @@
                           v-loading="listLoading">
                     <el-table-column type="selection" width="55"></el-table-column>
                     <el-table-column align="center" label="序号" type="index"/>
-                    <el-table-column align="center" label="用户姓名" prop="userName"/>
-                    <el-table-column align="center" label="卡号" prop="userId"/>
-                    <el-table-column align="center" label="证件号" prop="idNO"/>
-                    <el-table-column align="center" label="通行楼层" prop="companyFloor"/>
+                    <el-table-column align="center" label="分组名称" prop="groupName"/>
+                    <el-table-column align="center" label="创建时间" prop="creationDate"/>
 
                     <el-table-column align="center" label="操作">
                         <template slot-scope="scope">
-                            <el-link type="primary" @click="handleUpdate(scope.$index,scope.row)" icon="el-icon-edit">详情</el-link>
+                            <el-link type="primary" @click="handleUpdate(scope.$index,scope.row)" icon="el-icon-edit">
+                                编辑
+                            </el-link>
                             &nbsp; &nbsp;
-                            <el-link type="primary" @click="handleDelete(scope.$index,scope.row)" icon="el-icon-delete">删除</el-link>
-                           <!-- <el-button @click="handleUpdate(scope.$index,scope.row)" size="mini" type="primary">详情
-                            </el-button>-->
-                           <!-- <el-button @click="handleDelete(scope.$index,scope.row)" size="mini" type="danger">删除
-                            </el-button>-->
-
+                            <el-link type="primary" @click="handleDelete(scope.$index,scope.row)" icon="el-icon-delete">
+                                删除
+                            </el-link>
                         </template>
                     </el-table-column>
                 </el-table>
@@ -43,41 +40,13 @@
                 </div>
                 <!-- 新增标签弹层 -->
                 <div class="add-form">
-                    <el-dialog :visible.sync="dialogFormVisible" title="人员管理">
-                        <el-form :model="formData" :rules="rules" label-position="right" label-width="100px"
+                    <el-dialog :visible.sync="dialogFormVisible" title="新增分组" width="25%">
+                        <el-form :model="formData" :rules="rules" label-position="right" label-width="80px"
                                  ref="dataAddForm">
                             <el-row>
-                                <el-col :span="10">
-                                    <el-form-item label="用户姓名:" prop="userName">
-                                        <el-input v-model="formData.userName"/>
-                                    </el-form-item>
-                                </el-col>
-                                <el-col :span="10">
-                                    <el-form-item label="卡号:" prop="userId">
-                                        <el-input v-model="formData.userId"/>
-                                    </el-form-item>
-                                </el-col>
-                                <el-col :span="10">
-                                    <el-form-item label="证件号:" prop="idNO">
-                                        <el-input v-model="formData.idNO"/>
-                                    </el-form-item>
-                                </el-col>
-                                <el-col :span="10">
-                                    <el-form-item label="通行楼层:" prop="companyFloor">
-                                        <el-input v-model="formData.companyFloor"/>
-                                    </el-form-item>
-                                </el-col>
-                                <el-col :span="12">
-                                    <el-form-item label="照片:" prop="photo">
-
-                                        <el-upload
-                                                :on-success="handleAvatarSuccess"
-                                                :show-file-list="false"
-                                                action="http://192.168.4.2:80/person/pic"
-                                                class="avatar-uploader">
-                                            <img :src="imageUrl" class="avatar" v-if="imageUrl">
-                                            <i class="el-icon-plus avatar-uploader-icon" v-else></i>
-                                        </el-upload>
+                                <el-col :span="20">
+                                    <el-form-item label="分组名称:" prop="groupName">
+                                        <el-input v-model="formData.groupName"/>
                                     </el-form-item>
                                 </el-col>
                             </el-row>
@@ -91,42 +60,13 @@
 
                 <!-- 编辑标签弹层 -->
                 <div class="add-form" v-loading="dialogLoading">
-                    <el-dialog :visible.sync="dialogFormVisible4Edit" title="编辑服务器配置">
-                        <el-form :model="formData" :rules="rules" label-position="right" label-width="100px"
+                    <el-dialog :visible.sync="dialogFormVisible4Edit" title="编辑分组" width="25%">
+                        <el-form :model="formData" :rules="rules" label-position="right" label-width="80px"
                                  ref="dataEditForm">
                             <el-row>
-                                <el-col :span="10">
-                                    <el-form-item label="用户姓名:" prop="deviceId">
-                                        <el-input v-model="formData.userName"/>
-                                    </el-form-item>
-                                </el-col>
-                                <el-col :span="10">
-                                    <el-form-item label="卡号:" prop="userId">
-                                        <el-input v-model="formData.userId"/>
-                                    </el-form-item>
-                                </el-col>
-                                <el-col :span="10">
-                                    <el-form-item label="证件号:" prop="idNO">
-                                        <el-input v-model="formData.idNO"/>
-                                    </el-form-item>
-                                </el-col>
-                                <el-col :span="10">
-                                    <el-form-item label="通行楼层:" prop="companyFloor">
-                                        <el-input v-model="formData.companyFloor"/>
-                                    </el-form-item>
-                                </el-col>
-
-                                <el-col :span="10">
-                                    <el-form-item label="照片:" prop="devicePort">
-                                        <el-upload
-                                                :on-success="handleAvatarSuccess"
-                                                :show-file-list="false"
-                                                action="http://192.168.4.31:80/person/pic"
-                                                class="avatar-uploader"
-                                                >
-                                            <img :src="imageUrl" class="avatar" v-if="imageUrl">
-                                            <i class="el-icon-plus avatar-uploader-icon" v-else></i>
-                                        </el-upload>
+                                <el-col :span="20">
+                                    <el-form-item label="分组名称:" prop="groupName">
+                                        <el-input v-model="formData.groupName"/>
                                     </el-form-item>
                                 </el-col>
                             </el-row>
@@ -143,7 +83,7 @@
 </template>
 
 <script>
-    import {addUser, findPersonControl, delPersonControl, editPersonControl, delMorePerson,findByName} from '../../api/index.js'
+    import {findGroup, addGroup, editGroup, delGroup, delBatchGroup,findPerByName} from '../../api/index.js'
 
     export default {
         name: '',
@@ -159,7 +99,7 @@
                 },
                 imageUrl: '',
                 controllerShow: true,//自有控制器隐藏控件
-                dataList: [], // 当前页要展示的分页列表数据
+                dataList: [],
                 formData: {}, // 表单数据
                 sels: [],//列表选中列
                 dialogFormVisible: false, // 增加表单是否可见
@@ -173,7 +113,6 @@
                      idNO: [{required: true, message: '证件号', trigger: 'blur'}],
                      companyFloor: [{required: true, message: '楼层', trigger: 'blur'}],
  */
-
                 }
             };
         },
@@ -190,23 +129,22 @@
                 this.$refs['dataEditForm'].validate(valid => {
                     if (valid) {
                         // 表单校验通过，可以提交数据
-                        this.listLoading=true;
-                        this.dialogFormVisible4Edit =false;
-                        editPersonControl(this.formData)
+                        this.listLoading = true;
+                        this.dialogFormVisible4Edit = false;
+                        editGroup(this.formData)
                             .then(res => {
-
                                 if (res.success) {
                                     // 弹出成功提示信息
-                                    this.listLoading=false,
-                                    this.$message({
-                                        type: 'success',
-                                        message: "修改成功"
-                                    });
+                                    this.listLoading = false,
+                                        this.$message({
+                                            type: 'success',
+                                            message: "修改成功"
+                                        });
                                     this.findPage();
                                 } else {
                                     // 执行失败
-                                    this.listLoading=false,
-                                    this.$message.error("修改失败");
+                                    this.listLoading = false,
+                                        this.$message.error("修改失败");
                                     this.findPage();
                                 }
                             })
@@ -219,33 +157,29 @@
             },
             // 添加
             handleAdd() {
-
                 // 进行表单校验
                 this.$refs['dataAddForm'].validate(valid => {
                     if (valid) {
                         // 表单校验通过，发生ajax请求，将录入的数据提交到后台进行处理
-                        console.log(this.formData);
-                        this.dialogFormVisible =false;
-                        this.listLoading =true;
-                        addUser(this.formData).then(res => {
+                        window.console.log(this.formData);
+                        this.dialogFormVisible = false;
+                        this.listLoading = true;
+                        addGroup(this.formData).then(res => {
 
                             if (res.success) {
-
                                 this.findPage();
                                 this.$message({
                                     type: 'success',
                                     message: "添加成功"
                                 });
-                                this.listLoading =false;
+                                this.listLoading = false;
                             } else {
                                 // 执行失败
                                 this.$message.error("添加失败");
                                 this.findPage();
-                                this.listLoading =false;
+                                this.listLoading = false;
                             }
                         });
-
-
                         // 不管成功还是失败，都调用分页查询方法
 
                     } else {
@@ -253,10 +187,7 @@
                         this.$message.error('数据校验失败，请检查你的输入信息是否正确！');
                         return false;
                     }
-
                 });
-
-
             },
 
             //根据控制器隐藏控件
@@ -275,8 +206,9 @@
                     pageSize: this.pagination.pageSize,
                     queryString: this.pagination.queryString
                 };
-                findPersonControl(param).then(res => {
+                findGroup(param).then(res => {
                     // 解析Controller响应回的数据，为模型数据赋值
+                    window.console.log(res);
                     this.dataList = res.msg;
                     this.pagination.total = res.size;
                     //   this.listLoading = false;
@@ -299,13 +231,6 @@
                 // 弹出编辑窗口
                 this.dialogFormVisible4Edit = true;
                 this.formData = Object.assign({}, row);
-                this.imageUrl = "http://192.168.4.2:80/img/" + this.formData.photo;
-
-            },
-            handleAvatarSuccess(res, file) {
-
-                this.imageUrl = URL.createObjectURL(file.raw);
-                this.formData.photo = res.msg
             },
             // 切换页码
             handleCurrentChange(currentPage) {
@@ -319,7 +244,8 @@
                 // row其实是一个json对象，json对象的结构为{"age":"0-100","attention":"无","code":"0011","id":38,"name":"白细胞计数","price":10.0,"remark":"白细胞计数","sex":"0","type":"2"}
 
                 this.formData = Object.assign({}, row);
-                var para = {'deviceId': this.formData.deviceId}
+                window.console.log(this.formData)
+                var para = {'id': this.formData.id}
 
                 this.$confirm('你确定要删除当前数据吗？', '提示', {
                     // 确认框
@@ -327,9 +253,12 @@
                 }).then(() => {
                     this.listLoading = true;
                     // 用户点击确定按钮，发送ajax请求，将检查项ID提交到Controller进行处理
-                    var companyUserId = {"companyUserId": this.formData.companyUserId}
-                    delPersonControl(companyUserId).then(res => {
-
+                    delGroup(para).then(res => {
+                        if(res.code == 200){
+                            this.$message.success("删除成功")
+                        }else{
+                            this.$message.error(res.msg)
+                        }
                         this.listLoading = false;
                         this.findPage();
                     })
@@ -346,25 +275,24 @@
                 this.sels = sels;
             },
             //批量删除
-            delMoreUser() {
-                var ids = {"companyUserId": this.sels.map(item => item.companyUserId).toString()};
-
+            delMoreGroup() {
+                var ids = {"id": this.sels.map(item => item.id).toString()};
                 this.$confirm('你确定要删除当前数据吗？', '提示', {
                     // 确认框
                     type: 'warning'
                 }).then(() => {
                     this.listLoading = true;
-                        // 用户点击确定按钮，发送ajax请求，将检查项ID提交到Controller进行处理
-                    delMorePerson(ids).then(res=>{
+                    // 用户点击确定按钮，发送ajax请求，将检查项ID提交到Controller进行处理
+                    delBatchGroup(ids).then(res => {
 
-                       if(res.success){
+                        if (res.success) {
                             this.$message.success("删除成功")
-                           this.findPage();
-                           this.listLoading = false;
-                        }else{
+                            this.findPage();
+                            this.listLoading = false;
+                        } else {
                             this.$message.error("删除失败")
-                           this.findPage();
-                           this.listLoading = false;
+                            this.findPage();
+                            this.listLoading = false;
                         }
                     })
                     this.listLoading = false;
@@ -372,25 +300,25 @@
             },
 
             //根据名字查找
-            findByName(){
+            findByName() {
+
                 var param = {
                     currentPage: this.pagination.currentPage,
                     pageSize: this.pagination.pageSize,
-                    queryString: this.pagination.queryString,
-                    "userName":this.pagination.queryString
+                    userName: this.pagination.queryString
                 };
-
-               findByName(param).then( res=>{
-                    if(res.success){
+                findPerByName(param).then(res => {
+                    window.console.log(res)
+                    if (res.success) {
                         this.$message.success("查询成功")
                         this.dataList = res.msg;
                         this.pagination.total = res.size;
-                    }else{
-                        this.$message.error("查询失败")
+                    } else {
+                        this.$message.success("查询失败")
                         this.dataList = "";
                         this.pagination.total = 0;
                     }
-               })
+                })
             }
         }
     };
@@ -404,29 +332,33 @@
         padding: 15px 15px 0 15px;
         /* margin-top: 70px; */
     }
-    .del{
-        background:rgba(232,76,20,1);
-        color:rgba(255,255,255,1);
+
+    .del {
+        background: rgba(232, 76, 20, 1);
+        color: rgba(255, 255, 255, 1);
         float: right;
 
     }
-    .add{
-        background:rgba(109,195,47,1);
-        color:rgba(255,255,255,1);
+
+    .add {
+        background: rgba(109, 195, 47, 1);
+        color: rgba(255, 255, 255, 1);
         float: right;
 
     }
+
     .content-header > h1 {
         margin: 0;
         font-size: 24px;
         font-weight: normal;
     }
 
-    .search{
-        background:rgba(32,133,255,1);
-        color:rgba(255,255,255,1);
+    .search {
+        background: rgba(32, 133, 255, 1);
+        color: rgba(255, 255, 255, 1);
         margin-left: 10px;
     }
+
     .content-header > h1 > small {
         font-size: 15px;
         display: inline-block;
