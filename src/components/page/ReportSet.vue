@@ -39,7 +39,6 @@
                 <label style="margin-left: 0.8%">姓名:</label>
                 <el-input class="filter-item" placeholder="姓名" style="width: 220px;"
                           v-model="userName"/>
-
             </div>
 
                 <!-- <el-select v-model="value" placeholder="请选择" class="filter-item">
@@ -60,7 +59,7 @@
                     <el-table-column align="center" label="序号" type="index"/>
                     <el-table-column align="center" label="分组" prop="groupName"/>
                     <el-table-column align="center" label="宿舍编号" prop="dormitory"/>
-                    <el-table-column align="center" label="姓名" prop="userName"/>
+                    <el-table-column align="center" label="姓名" prop="name1"/>
                     <el-table-column align="center" label="学号（工号）" prop="studentNumber"/>
                     <el-table-column align="center" label="体温" prop="temperature"/>
                     <el-table-column align="center" label="是否正常" :formatter="statformate"/>
@@ -160,7 +159,7 @@
         },
         methods: {
             statformate(row){
-                switch (row.status) {
+                switch (row.status1) {
                     case 'normal':
                         return '正常';
                         break;
@@ -180,9 +179,15 @@
                 var param = {
                     currentPage: this.pagination.currentPage,
                     pageSize: this.pagination.pageSize,
-                    queryString: this.pagination.queryString
+                    queryString: this.pagination.queryString,
+                    userName: this.userName,
+                    status:this.status,
+                    groupName:this.groupName,
+                    dormitory: this.dormitory,
+                    beginTime: this.beginTime,
+                    endTime:this.endTime
                 };
-                findAllRecord(param).then(res => {
+                findRecordByName(param).then(res => {
                     // 解析Controller响应回的数据，为模型数据赋值
                     window.console.log(res)
                     this.dataList = res.msg;

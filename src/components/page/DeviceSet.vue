@@ -22,6 +22,7 @@
                     <el-table-column prop="deviceType" label="设备型号" align="center"/>
                     <el-table-column prop="deviceIp" label="设备IP地址" align="center"/>
                     <el-table-column prop="FQ_turnover" label="进出标识" align="center"/>
+                    <el-table-column prop="remark" label="备注" align="center"/>
                     <el-table-column label="操作" align="center">
                         <template slot-scope="scope">
                             <el-link type="primary" @click="handleUpdate(scope.$index,scope.row)" icon="el-icon-edit">详情</el-link>
@@ -90,7 +91,7 @@
                                     </el-form-item>
                                 </el-col>
                                 <el-col :span="10">
-                                    <el-form-item label="进出标识:" prop="FQ_turnover" v-show="noControlShow">
+                                    <el-form-item label="进出标识:" prop="FQ_turnover">
                                         <el-radio-group v-model="formData.FQ_turnover">
                                             <el-radio class="radio" :label="0">进</el-radio>
                                             <el-radio class="radio" :label="1">出</el-radio>
@@ -98,7 +99,7 @@
                                     </el-form-item>
                                 </el-col>
                                 <el-col :span="10">
-                                    <el-form-item label="使用状态:" prop="status" v-show="noControlShow">
+                                    <el-form-item label="使用状态:" prop="status">
                                         <el-radio-group v-model="formData.status">
                                             <el-radio class="radio" :label="0">使用</el-radio>
                                             <el-radio class="radio" :label="1">闲置</el-radio>
@@ -131,7 +132,11 @@
                                         <el-input v-model="formData.password"/>
                                     </el-form-item>
                                 </el-col>
-
+                                <el-col :span="10">
+                                    <el-form-item label="备注:" prop="remark">
+                                        <el-input v-model="formData.remark"/>
+                                    </el-form-item>
+                                </el-col>
                             </el-row>
                         </el-form>
                         <div slot="footer" class="dialog-footer">
@@ -236,7 +241,11 @@
                                         <el-input v-model="formData.password"/>
                                     </el-form-item>
                                 </el-col>
-
+                                <el-col :span="10">
+                                    <el-form-item label="备注:" prop="remark">
+                                        <el-input v-model="formData.remark"/>
+                                    </el-form-item>
+                                </el-col>
                             </el-row>
                         </el-form>
                         <div slot="footer" class="dialog-footer">
@@ -706,6 +715,4 @@
     }
 
     /* .el-container{position: relative;} */
-
-
 </style>
