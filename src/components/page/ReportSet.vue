@@ -108,7 +108,7 @@
 <script>
     import { findAllRecord ,findGroup,findRecordByName} from '../../api/index.js'
 
-    let url = "http://192.168.4.31:80/statement?groupName=";
+    let url = "http://127.0.0.1:80/statement?groupName=";
     export default {
         name: '',
         components: {},

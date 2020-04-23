@@ -104,7 +104,7 @@
                                     <el-form-item label="人员信息包:" prop="photo">
                                         <el-upload
                                                 ref="uploadExcel"
-                                                action="http://192.168.4.31:80/per/excel"
+                                                action="http://127.0.0.1:80/per/excel"
                                                 :limit=limitNum
                                                 :on-success="handleSuccess">
                                             <el-button size="small" plain>选择文件</el-button>

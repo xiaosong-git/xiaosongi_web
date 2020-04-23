@@ -3,8 +3,8 @@ const service = axios.create({
     // process.env.NODE_ENV === 'development' 来判断是否开发环境
     // easy-mock服务挂了，暂时不使用了
     // baseURL: 'https://www.easy-mock.com/mock/592501a391470c0ac1fab128',
-    /*baseURL: 'http://192.168.4.31:80', // 配置axios接口路径*/
-    baseURL: 'http://192.168.4.31:80/', // 配置axios接口路径
+    /*baseURL: 'http://127.0.0.1:80', // 配置axios接口路径*/
+    baseURL: 'http://127.0.0.1:80/', // 配置axios接口路径
     timeout: 20000
 });
 // 配置请求拦截器

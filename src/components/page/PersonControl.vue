@@ -121,7 +121,7 @@
                                         <el-upload
                                                 :on-success="handleAvatarSuccess"
                                                 :show-file-list="false"
-                                                action="http://192.168.4.31:80/person/pic"
+                                                action="http://127.0.0.1:80/person/pic"
                                                 class="avatar-uploader"
                                                 >
                                             <img :src="imageUrl" class="avatar" v-if="imageUrl">
